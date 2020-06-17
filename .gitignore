@@ -1,2 +1,4 @@
 virt
 .vscode
+cropped_images/*
+*.jpg
