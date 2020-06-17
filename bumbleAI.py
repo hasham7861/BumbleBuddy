@@ -15,8 +15,6 @@ from PIL import Image
 from autocrop import Cropper
 
 from config import config
-# # Example posting a local image file:
-
 
 cropper = Cropper()
 
