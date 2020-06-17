@@ -11,27 +11,29 @@
         for example. you went to same school. same hobbies to scan within the profile
 '''
 
+import requests
 from PIL import Image
-import face_recognition
+from autocrop import Cropper
 
-# Load the jpg file into a numpy array
-image = face_recognition.load_image_file("hasham.jpg")
+from config import config
+# Example posting a local image file:
 
-# Find all the faces in the image using the default HOG-based model.
-# This method is fairly accurate, but not as accurate as the CNN model and not GPU accelerated.
-# See also: find_faces_in_picture_cnn.py
-face_locations = face_recognition.face_locations(image)
+face_distance = requests.post(
+    "https://api.deepai.org/api/image-similarity",
+    files={
+        'image1': open('cropped.png', 'rb'),
+        'image2': open('cropped2.png', 'rb'),
+    },
+    headers={'api-key': config["deepai"]["key"]}
+)
 
-print("I found {} face(s) in this photograph.".format(len(face_locations)))
+print(face_distance.json())
 
-for face_location in face_locations:
 
-    # Print the location of each face in this image
-    top, right, bottom, left = face_location
-    print("A face is located at pixel location Top: {}, Left: {}, Bottom: {}, Right: {}".format(
-        top, left, bottom, right))
+cropper = Cropper()
+# Get a Numpy array of the cropped image
+cropped_array = cropper.crop('hasham.jpg')
 
-    # You can access the actual face itself like this:
-    face_image = image[top:bottom, left:right]
-    pil_image = Image.fromarray(face_image)
-    pil_image.show()
+# Save the cropped image with PIL
+cropped_image = Image.fromarray(cropped_array)
+cropped_image.save('cropped2.png')
