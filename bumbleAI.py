@@ -7,14 +7,16 @@
 #         before swiping right, crop images to just detect the face. - face_recogniztion - find_faces_in_picture.py
 #         then based on that determine how big is the difference. find the right distance number
 #         Extra features can be for searching for extra attributes within the profile of what you like
-#         for example. you went to same school. same hobbies to scan within the profile
+#         for example. you went to same school (UofT). same hobbies to scan within the profile ()
 # '''
 
 import requests
 from PIL import Image
 from autocrop import Cropper
 
-from config import config
+import configparser
+config = configparser.ConfigParser()
+config.read('config.INI')
 
 cropper = Cropper()
 
