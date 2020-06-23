@@ -3,3 +3,4 @@ virt
 cropped_images/*
 *.jpg
 *config*
+debug*
