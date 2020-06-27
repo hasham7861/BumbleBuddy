@@ -1,8 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
+from webdriver_manager.chrome import ChromeDriverManager
+
 from selenium.webdriver.common.by import By
-import sys
+from sys import platform
 import configparser
 
 config = configparser.ConfigParser()
@@ -11,13 +13,9 @@ config.read('config.INI')
 # Setup the chrome driver
 options = Options()
 options.page_load_strategy = 'eager'
-driver_path = ''
-if sys.platform == 'linux':
-    driver_path = '.\drivers\chrome\linux\chromedriver'
-elif sys.platform == 'win32':
-    driver_path = '.\drivers\chrome\win32\chromedriver.exe'
+
 driver = webdriver.Chrome(
-    options=options, executable_path=driver_path)
+    options=options, executable_path=ChromeDriverManager().install())
 
 # Sign up via cellphone login
 driver.get("https://bumble.com/get-started")
