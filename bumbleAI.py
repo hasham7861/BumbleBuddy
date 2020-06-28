@@ -55,4 +55,4 @@ def similar_face(your_type_image_path, candidate_image_path):
         return is_your_type
     except Exception as e:
         print(e)
-        return
+        return False

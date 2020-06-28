@@ -9,16 +9,14 @@ def start_script():
     your_type_img_path = "images/your-type/marinda.png"
     total_swipes = 10
     for i in (0, total_swipes, 1):
-
-        candidate = get_candidate(driver, is_signed_in)
-        if(candidate):
-            candidate_img_path, dislike_button, like_button = candidate
-            is_my_type = similar_face(
-                your_type_img_path, candidate_img_path)
-            if is_my_type:
-                like_button.click()
-            else:
-                dislike_button.click()
+        candidate_img_path, dislike_button, like_button = get_candidate(
+            driver, is_signed_in)
+        is_my_type = similar_face(
+            your_type_img_path, candidate_img_path)
+        if is_my_type:
+            like_button.click()
+        else:
+            dislike_button.click()
 
     quit_browser(driver)
 

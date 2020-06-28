@@ -87,9 +87,9 @@ def get_candidate(driver, is_signed_in):
     candidate_img_path = download_candidate_image(driver)
     try:
         candidate_img_cropped_path = crop_face(candidate_img_path)
-        return candidate_img_cropped_path, dislike_button, like_button, driver
+        return candidate_img_cropped_path, dislike_button, like_button
     except Exception as e:
-        return None
+        return e
 
 
 def quit_browser(driver):
