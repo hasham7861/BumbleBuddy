@@ -9,6 +9,8 @@ from sys import platform
 import configparser
 from secrets import token_hex
 from bumbleAI import crop_face
+import os
+import shutil
 
 # load config
 config = configparser.ConfigParser()
@@ -56,10 +58,10 @@ def get_action_buttons(driver):
     if not driver:
         return
     # get the like and dislike buttons
-    driver.implicitly_wait(5)
+
     action_btns = driver.find_elements(
         By.CLASS_NAME, "encounters-action__icon")
-    driver.implicitly_wait(5)
+    time.sleep(2)
     dislike_button = action_btns[0]
     like_button = action_btns[2]
 
@@ -89,7 +91,21 @@ def get_candidate(driver, is_signed_in):
         candidate_img_cropped_path = crop_face(candidate_img_path)
         return candidate_img_cropped_path, dislike_button, like_button
     except Exception as e:
-        return e
+        # skip over images that can't be cropped
+        dislike_button.click()
+        return None, None, None
+
+
+def delete_folder_images(folder_path):
+    for filename in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
 
 
 def quit_browser(driver):
