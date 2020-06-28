@@ -78,17 +78,18 @@ def download_candidate_image(driver):
     return download_img_path
 
 
-def get_candidate():
-    browser_driver = instantiate_browser()
-    is_signed_in = sigin_bumble(browser_driver)
+def get_candidate(driver, is_signed_in):
+
     if not is_signed_in:
         return "login_err: input in the right captcha code and rerun script"
 
-    dislike_button, like_button = get_action_buttons(browser_driver)
-    candidate_img_path = download_candidate_image(browser_driver)
-    candidate_img_cropped_path = crop_face(candidate_img_path)
-
-    return candidate_img_cropped_path, dislike_button, like_button, browser_driver
+    dislike_button, like_button = get_action_buttons(driver)
+    candidate_img_path = download_candidate_image(driver)
+    try:
+        candidate_img_cropped_path = crop_face(candidate_img_path)
+        return candidate_img_cropped_path, dislike_button, like_button, driver
+    except Exception as e:
+        return None
 
 
 def quit_browser(driver):
