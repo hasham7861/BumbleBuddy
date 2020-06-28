@@ -13,6 +13,7 @@
 import requests
 from PIL import Image
 from autocrop import Cropper
+import time
 
 import configparser
 config = configparser.ConfigParser()
@@ -23,22 +24,27 @@ cropper = Cropper()
 # Crop every image you compare for getting an accurate comparsion
 
 
-def CropFace(file_path):
+def crop_face(file_path):
+    time.sleep(2)
+    print(file_path)
     # Get a Numpy array of the cropped image
     cropped_array = cropper.crop(file_path)
     # Save the cropped image with PIL
     cropped_image = Image.fromarray(cropped_array)
-    cropped_image.save('images/crop/'+file_path)
+
+    cropped_image_path = 'images/crop/'+file_path
+    cropped_image.save(cropped_image_path)
+    return cropped_image_path
 
 # Based on face distance return true if person is your type or not
 
 
-def SimilarFace(file_path1, file_path2):
+def similar_face(your_type_image_path, candidate_image_path):
     face_distance = requests.post(
         "https://api.deepai.org/api/image-similarity",
         files={
-            'image1': open(file_path1, 'rb'),
-            'image2': open(file_path2, 'rb'),
+            'image1': open(your_type_image_path, 'rb'),
+            'image2': open(candidate_image_path, 'rb'),
         },
         headers={'api-key': config["deepai"]["key"]}
     )
@@ -46,10 +52,3 @@ def SimilarFace(file_path1, file_path2):
     is_your_type = face_distance.json()["output"]["distance"] <= 28
 
     return is_your_type
-
-
-# print("This person is your type: ", SimilarFace(
-#     'cropped_images/hasham.jpg', 'cropped_images/shabaz.jpg'))
-
-
-CropFace("poop.png")
