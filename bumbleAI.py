@@ -26,13 +26,12 @@ cropper = Cropper()
 
 def crop_face(file_path):
     time.sleep(2)
-    print(file_path)
     # Get a Numpy array of the cropped image
     cropped_array = cropper.crop(file_path)
     # Save the cropped image with PIL
     cropped_image = Image.fromarray(cropped_array)
 
-    cropped_image_path = 'images/crop/'+file_path
+    cropped_image_path = 'images/crop/'+file_path.split("/download/")[1]
     cropped_image.save(cropped_image_path)
     return cropped_image_path
 
@@ -40,15 +39,20 @@ def crop_face(file_path):
 
 
 def similar_face(your_type_image_path, candidate_image_path):
-    face_distance = requests.post(
-        "https://api.deepai.org/api/image-similarity",
-        files={
-            'image1': open(your_type_image_path, 'rb'),
-            'image2': open(candidate_image_path, 'rb'),
-        },
-        headers={'api-key': config["deepai"]["key"]}
-    )
-    # The lower the number for distance the similar the image is. I kept it as 28 for sharing attributes
-    is_your_type = face_distance.json()["output"]["distance"] <= 28
+    time.sleep(2)
+    try:
+        face_distance = requests.post(
+            "https://api.deepai.org/api/image-similarity",
+            files={
+                'image1': open(your_type_image_path, 'rb'),
+                'image2': open(candidate_image_path, 'rb'),
+            },
+            headers={'api-key': config["deepai"]["key"]}
+        )
+        # The lower the number for distance the similar the image is. I kept it as 28 for sharing attributes
+        is_your_type = face_distance.json()["output"]["distance"] <= 28
 
-    return is_your_type
+        return is_your_type
+    except Exception as e:
+        print(e)
+        return

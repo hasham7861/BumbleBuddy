@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 from sys import platform
 import configparser
 from secrets import token_hex
+from bumbleAI import crop_face
 
 # load config
 config = configparser.ConfigParser()
@@ -74,7 +75,20 @@ def download_candidate_image(driver):
     imageEl = driver.find_element_by_class_name(
         "media-box__picture-image").screenshot(download_img_path)
 
-    return download_img_path.split("/download/")[1]
+    return download_img_path
+
+
+def get_candidate():
+    browser_driver = instantiate_browser()
+    is_signed_in = sigin_bumble(browser_driver)
+    if not is_signed_in:
+        return "login_err: input in the right captcha code and rerun script"
+
+    dislike_button, like_button = get_action_buttons(browser_driver)
+    candidate_img_path = download_candidate_image(browser_driver)
+    candidate_img_cropped_path = crop_face(candidate_img_path)
+
+    return candidate_img_cropped_path, dislike_button, like_button, browser_driver
 
 
 def quit_browser(driver):

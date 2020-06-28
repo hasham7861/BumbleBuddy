@@ -2,5 +2,6 @@ virt
 .vscode
 images/crop/*
 images/download/*
+images/your_type/*
 *config*
 debug*
