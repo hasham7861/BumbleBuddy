@@ -3,7 +3,6 @@ from bumbleAI import similar_face
 
 
 def start_script():
-
     driver = instantiate_browser()
     is_signed_in = sigin_bumble(driver)
     your_type_img_path = "images/your-type/marinda.png"
