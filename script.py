@@ -1,5 +1,6 @@
-from bumbleSwiper import get_candidate, quit_browser, instantiate_browser, sigin_bumble, delete_folder_images
 from bumbleAI import similar_face
+from bumbleSwiper import get_candidate, quit_browser, \
+    instantiate_browser, sigin_bumble, delete_folder_images
 
 
 def start_script():
@@ -16,11 +17,14 @@ def start_script():
         if candidate_img_path and dislike_button and like_button:
             is_my_type = similar_face(
                 your_type_img_path, candidate_img_path)
-
+            swiped_message = ""
             if is_my_type:
                 like_button.click()
+                swiped_message += "liked {i} swipe"
             else:
                 dislike_button.click()
+                swiped_message += "disLiked {i} swipe"
+            print(swiped_message)
 
     quit_browser(driver)
 
