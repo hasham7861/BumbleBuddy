@@ -28,7 +28,7 @@ def CropFace(file_path):
     cropped_array = cropper.crop(file_path)
     # Save the cropped image with PIL
     cropped_image = Image.fromarray(cropped_array)
-    cropped_image.save('cropped_images/'+file_path)
+    cropped_image.save('images/crop/'+file_path)
 
 # Based on face distance return true if person is your type or not
 
@@ -52,4 +52,4 @@ def SimilarFace(file_path1, file_path2):
 #     'cropped_images/hasham.jpg', 'cropped_images/shabaz.jpg'))
 
 
-# CropFace("randomguy2.jpg")
+CropFace("poop.png")

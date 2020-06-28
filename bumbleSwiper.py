@@ -1,11 +1,13 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
-
+import time
 from selenium.webdriver.common.by import By
 from sys import platform
 import configparser
+from secrets import token_bytes
 
 config = configparser.ConfigParser()
 config.read('config.INI')
@@ -33,13 +35,17 @@ home_btns[1].click()
 # second page of entering pass
 driver.find_element(By.ID, "pass").send_keys(config["bumble"]["passcode"])
 driver.find_elements_by_class_name('button')[0].click()
-# driver.quit()
 
+# get the like and dislike buttons
 driver.implicitly_wait(5)
 action_btns = driver.find_elements(By.CLASS_NAME, "encounters-action__icon")
 driver.implicitly_wait(5)
 dislike_button = action_btns[0]
 like_button = action_btns[2]
 
-# like people based on the AI
-# like_button.click()
+# Wait certain seconds before browswer laods image
+time.sleep(5)
+download_img_path = "images/download/image_" + \
+    token_bytes(16).decode("cp437")+".png"
+imageEl = driver.find_element_by_class_name(
+    "media-box__picture-image").screenshot(download_img_path)
