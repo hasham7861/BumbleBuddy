@@ -27,6 +27,12 @@ def start_script():
     return "swiped {total_swipes} times"
 
 
-start_script()
-delete_folder_images("images/crop")
-delete_folder_images("images/download")
+if __name__ == "__main__":
+    try:
+        start_script()
+    except Exception as e:
+        print(e)
+    finally:
+        # cleanup the saved images
+        delete_folder_images("images/crop")
+        delete_folder_images("images/download")
