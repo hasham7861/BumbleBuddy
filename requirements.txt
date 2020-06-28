@@ -1,10 +1,17 @@
 autocrop==1.0.2
+autopep8==1.5.3
 certifi==2020.6.20
 chardet==3.0.4
+colorama==0.4.3
+configparser==5.0.0
+crayons==0.3.1
 idna==2.9
 numpy==1.19.0
 opencv-python==3.4.9.33
 Pillow==7.1.2
+pycodestyle==2.6.0
 requests==2.24.0
 selenium==3.141.0
+toml==0.10.1
 urllib3==1.25.9
+webdriver-manager==3.2.1
